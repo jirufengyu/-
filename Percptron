@@ -1,0 +1,30 @@
+training_set=[[3,3],1],[[4,3],1],[[1,1],-1]
+#选取初值
+w=[0,0]
+b=0
+u=1       #步长
+def update(item):       #更新
+    global w,b,u
+    for i in range(len(item[0])):
+        w[i]+=u*item[0][i]*item[1]
+    b+=u*item[1]
+
+def judge(item):    #判断y(w*x+b)是否小于0
+    sum=0
+    for i in range(len(item[0])):
+        sum+=item[0][i]*w[i]
+    sum+=b
+    sum*=item[1]
+    return sum
+def check():        #检查是否需要更新
+    flag=0
+    for item in training_set:
+        if judge(item)<=0:
+            flag=1
+            update(item)
+    if flag==0:
+        print("result:w"+str(w)+"b"+str(b))
+    return flag
+for i in range(100):
+    if  check()==0:
+        break
