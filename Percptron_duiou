@@ -1,0 +1,38 @@
+import numpy as np
+training_set=[[3,3],1],[[4,3],1],[[1,1],-1]
+#初始化
+alpha=np.zeros(len(training_set))
+weights=np.zeros(len(training_set[0]))
+b=0        #截距
+u=1     #步长
+G=[[0 for col in range(len(training_set))]for row in range(len(training_set))]
+#求Gram矩阵
+m=0
+n=0
+for item in training_set:
+    for item1 in training_set:
+        G[m][n] = 0
+        for i in range(len(item[0])):
+            G[m][n]+=item[0][i]*item1[0][i]
+        n+=1
+    n=0
+    m+=1
+print(str(G))
+flag=0
+#循环
+while flag!=1:
+    flag=1
+    for i in range(len(training_set)):#便利
+        sum=0
+        for j in range(len(training_set)):
+            sum+=alpha[j]*training_set[j][1]*G[j][i]
+        sum+=b
+        if(sum*training_set[i][1]<=0):#判断条件
+            alpha[i]+=u
+            b+=u*training_set[i][1]
+            flag=1
+        print(str(alpha) + str(b))
+for i in range(len(training_set)):
+    weights[0]+=alpha[i]*training_set[i][0][0]*training_set[i][1]
+    weights[1] += alpha[i] * training_set[i][0][1] * training_set[i][1]
+print("w:"+str(weights)+'b'+str(b))
